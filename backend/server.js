@@ -1,10 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const { connectDb } = require("./db");
+const dbRoute = require("./src/routes/database_router");
 const app = express();
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use("/db", dbRoute);
 
 app.get("/", (req, res) => {
     res.send("CIAO");
