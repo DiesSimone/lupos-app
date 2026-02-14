@@ -5,38 +5,195 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Auth Forms Styling */
+.auth-form {
+  background: linear-gradient(135deg, #262633 0%, #23232e 100%);
+  padding: 4rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(0, 0, 0, 0.6);
+  width: 400px;
+  margin: 4rem auto;
+  animation: slideInUp 0.8s ease-out;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 1.8);
 }
 
-@keyframes logo-spin {
+.form-title {
+  color: #000000;
+  font-size: 3.5rem;
+  margin: 0 0 1.5rem 0;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(212, 165, 116, 0.3);
+  letter-spacing: 1px;
+  animation: fadeInDown 0.6s ease-out;
+  background: linear-gradient(135deg, #ab7136 0%, #de771c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.form-label {
+  display: block;
+  margin: 1.5rem 0;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: left;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  border: 1px solid #414262;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #1c1c23 0%, #333342 100%);
+  color: #d1d1d1;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: inherit;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #e8a050;
+  background: rgb(26, 26, 37);
+  box-shadow: 0 4px 12px rgba(199, 125, 61, 0.25);
+  transform: translateY(-2px);
+}
+
+.form-input::placeholder {
+  color: #bbb;
+}
+
+.form-submit {
+  width: 100%;
+  padding: 1.2rem;
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #e8a050 0%, #c77d3d 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 25px rgba(199, 125, 61, 0.4);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.form-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f4b888 0%, #d89053 100%);
+  transition: left 0.4s ease;
+  z-index: -1;
+}
+
+.form-submit:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(199, 125, 61, 0.5);
+}
+
+.form-submit:hover::before {
+  left: 0;
+}
+
+.form-submit:active {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(199, 125, 61, 0.4);
+}
+
+.form-ph{
+  color: #737373;
+}
+
+/* Link styling */
+.auth-link {
+  color: #e8a050;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.auth-link:hover {
+  color: #f4b888;
+  text-shadow: 0 0 10px rgba(232, 160, 80, 0.5);
+}
+
+.auth-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #e8a050 0%, #c77d3d 100%);
+  transition: width 0.3s ease;
+}
+
+.auth-link:hover::after {
+  width: 100%;
+}
+
+/* Animations */
+@keyframes slideInUp {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(50px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.card {
-  padding: 2em;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+
+
+/* Smooth transitions for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .auth-form,
+  .form-title,
+  .form-label,
+  .form-input,
+  .form-submit {
+    animation: none;
+  }
+  
+  .form-input,
+  .form-submit {
+    transition: none;
+  }
 }
