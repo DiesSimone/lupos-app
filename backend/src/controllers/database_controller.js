@@ -3,11 +3,12 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 
 async function userCreation(req, res) {
+    console.log(req.body);
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const hashedPassword = await bcrypt.hash(req.body.data.password, 10);
         User.create({
-            username: req.body.username,
-            email: req.body.email,
+            username: req.body.data.username,
+            email: req.body.data.email,
             password: hashedPassword,
             created_at: new Date(Date.now())
         })
@@ -20,11 +21,11 @@ async function userCreation(req, res) {
 
 async function userLogging(req, res) {
     try {
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.body.data.email });
         if (!user || user === null) {
             return res.status(401).json({ message: "User not found" });
         }
-        if (await bcrypt.compare(req.body.password, user.password)) {
+        if (await bcrypt.compare(req.body.data.password, user.password)) {
             req.session.userId = user._id
             console.log(req.session.userId);
             res.status(200).json({ message: `Successfully logged in as ${user.username}` });
