@@ -1,9 +1,10 @@
 import axios from 'axios'
 
 export async function postRegisterAxios(data){
+    console.log(`${import.meta.env.VITE_API_URL}/db/register`)
     //simple post request using axios
     const res = await axios.post( 
-        `http://localhost:3000/db/register`,
+        `${import.meta.env.VITE_API_URL}/db/register`,
         {
             headers: {
                 'Content-Type': 'application/json'
