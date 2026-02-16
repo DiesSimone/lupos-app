@@ -29,6 +29,7 @@ async function userLogging(req, res) {
             req.session.userId = user._id
             console.log(req.session.userId);
             res.status(200).json({ message: `Successfully logged in as ${user.username}` });
+            console.log(`${user.username} has succesfully logged in!`);
         } else {
             res.status(401).json({ message: "Not authorized" });
         }

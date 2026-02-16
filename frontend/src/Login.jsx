@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import {Link} from 'react-router-dom'
+import {postLoginAxios} from './ApiReqs.jsx'
 
 function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [data, setData] = useState("");
 
 
     function handleMail(e) {
@@ -16,7 +18,20 @@ function Login(){
 
     function handleSubmit(e) {
         e.preventDefault();
-        alert(`Email: ${email}, Password: ${password}`);
+        // alert(`Email: ${email}, Password: ${password}`);
+        const postWithAxios = async () => {
+            try {
+                const postData = postLoginAxios({
+                    email: email,
+                    password: password,
+                });
+                setData(postData.data)
+                console.log("Login submitted");
+            } catch (error) {
+                console.log(`[LOGIN-ERROR] There has been an error with the login: ${error}`)
+            }
+        }
+        postWithAxios();
     }
 
     return (

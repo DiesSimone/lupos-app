@@ -14,3 +14,16 @@ export async function postRegisterAxios(data){
     );
     return res.data;
 }
+
+export async function postLoginAxios(data){
+    const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/db/login`,
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data
+        }
+    );
+    return res.data
+}
