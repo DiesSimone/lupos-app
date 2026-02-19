@@ -1,6 +1,5 @@
 const User = require("../../models/users.js");
 const bcrypt = require("bcrypt");
-const session = require("express-session");
 
 async function userCreation(req, res) {
     console.log(req.body);
@@ -27,7 +26,14 @@ async function userLogging(req, res) {
         }
         if (await bcrypt.compare(req.body.data.password, user.password)) {
             req.session.userId = user._id
-            console.log(req.session.userId);
+            console.log(`[USER-LOGGING] session id: ${req.sessionID}`);
+            console.log(`[USER-LOGGING] session id: ${req.session.userId}`);
+            req.session.save((err) => {
+                if (err) {
+                    console.log('There has been an error with the saving of the session');
+                }
+                console.log("Saving the session");
+            })
             res.status(200).json({ message: `Successfully logged in as ${user.username}` });
             console.log(`${user.username} has succesfully logged in!`);
         } else {
@@ -40,4 +46,26 @@ async function userLogging(req, res) {
     }
 }
 
-module.exports = { userCreation, userLogging }
+async function sessionCheck(req, res) {
+    try {
+        console.log("checking....");
+        console.log(`[SESSION-CHECK] session id: ${req.sessionID}`);
+        console.log(req.session.userId);
+        if (req.session.userId) {
+            res.status(200).json({
+                isLogged: true,
+                user: req.session.username
+            });
+            console.log("authorized");
+        } else {
+            res.status(401).json({
+                isLogged: false
+            });
+            console.log("unauthorized");
+        }
+    } catch (error) {
+        console.log(`There has been an error with checking the session ${error}`);
+    }
+}
+
+module.exports = { userCreation, userLogging, sessionCheck }

@@ -1,11 +1,13 @@
 import axios from 'axios'
+const URL = import.meta.env.VITE_API_URL;
 
-export async function postRegisterAxios(data){
-    console.log(`${import.meta.env.VITE_API_URL}/db/register`)
+export async function postRegisterAxios(data) {
+    console.log(`${URL}/db/register`)
     //simple post request using axios
-    const res = await axios.post( 
-        `${import.meta.env.VITE_API_URL}/db/register`,
+    const res = await axios.post(
+        `${URL}/api/register`,
         {
+
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -15,15 +17,33 @@ export async function postRegisterAxios(data){
     return res.data;
 }
 
-export async function postLoginAxios(data){
+export async function postLoginAxios(data) {
+    console.log(`${URL}/api/login`)
     const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/db/login`,
+        `${URL}/api/login`,
+        // `http://localhost:5173/api/login`,
         {
+            data,
             headers: {
                 'Content-Type': 'application/json'
             },
-            data
+        },
+        {
+            withCredentials: true,
         }
     );
-    return res.data
+    return res.data;
+}
+
+export async function getStatusAxios() {
+    const res = await axios.get(
+        `${URL}/api/status`,
+        {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }
+    );
+    return res.data;
 }
