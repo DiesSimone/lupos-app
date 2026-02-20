@@ -31,14 +31,6 @@ function Login() {
                 console.log(`[LOGIN-ERROR] There has been an error with the login: ${error}`)
             }
         }
-        // const getStatus = async () => {
-        //     try {
-        //         const getData = await getStatusAxios();
-        //         setDataStatus(getData.data);
-        //     } catch (error) {
-        //         console.log(`[STATUS-ERROR] There has been an error with the status checker: ${error}`)
-        //     }
-        // }
         postWithAxios().then(() => {
             navigate('/dashboard')
         })

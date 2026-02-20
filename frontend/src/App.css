@@ -1,8 +1,50 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styling */
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100px;
+  background: linear-gradient(135deg, #262633 0%, #23232e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 2rem;
+  gap: 1.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#sidebar button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #e8a050;
+  background: linear-gradient(135deg, #333342 0%, #1c1c23 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 0;
+}
+
+#sidebar button:hover {
+  background: linear-gradient(135deg, #e8a050 0%, #c77d3d 100%);
+  border-color: #f4b888;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(232, 160, 80, 0.4);
+}
+
+#sidebar button img {
+  width: 30px;
+  height: 30px;
 }
 
 /* Auth Forms Styling */
