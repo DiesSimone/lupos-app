@@ -54,7 +54,6 @@ async function sessionCheck(req, res) {
         if (req.session.userId) {
             res.status(200).json({
                 isLogged: true,
-                user: req.session.username
             });
             console.log("authorized");
         } else {
@@ -68,4 +67,15 @@ async function sessionCheck(req, res) {
     }
 }
 
-module.exports = { userCreation, userLogging, sessionCheck }
+async function getUsername(req, res){
+    try {
+        const userId = await req.session.userId
+        const user = await User.findOne({_id: userId})
+        console.log(user);
+        return res.json({username: user.username});
+    } catch (error) {
+        console.log(`There has been an error with getting the username ${error}`);
+    }
+}
+
+module.exports = { userCreation, userLogging, sessionCheck, getUsername }

@@ -41,7 +41,8 @@ function Register() {
     }
 
     return (
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <div className='formWrapper'>
+            <form className="auth-form" onSubmit={handleSubmit}>
             <h1 className="form-title">LUPOS APP</h1>
             <p className="form-ph">Sign up today.</p>
             <input type="text" className="form-input" value={name} id="username" onChange={handleName} placeholder='Enter your username' /><br />
@@ -50,6 +51,7 @@ function Register() {
             <input type="submit" className="form-submit" id="submit" value="Register" />
             <label className="form-label">Already an user? <Link className="auth-link" to="/login">Click here</Link></label>
         </form>
+        </div>
     )
 }
 

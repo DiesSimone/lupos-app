@@ -47,3 +47,16 @@ export async function getStatusAxios() {
     );
     return res.data;
 }
+
+export async function getUsername(){
+    const res = await axios.get(
+        `${URL}/api/getname`,
+        {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+    return res.data.username;
+}

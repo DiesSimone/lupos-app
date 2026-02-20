@@ -37,7 +37,8 @@ function Login() {
     }
 
     return (
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="formWrapper">
+            <form className="auth-form" onSubmit={handleSubmit}>
             <h1 className="form-title">LUPOS APP</h1>
             <p className='form-ph'>Sign up into your account.</p>
             <input type="email" className="form-input" value={email} id="email" onChange={handleMail} placeholder='Enter your email' /><br />
@@ -45,6 +46,7 @@ function Login() {
             <input type="submit" className="form-submit" id="submit" value="Login" />
             <label className="form-label">Not an user yet? <Link className="auth-link" to="/register">Click here</Link></label>
         </form>
+        </div>
     )
 }
 

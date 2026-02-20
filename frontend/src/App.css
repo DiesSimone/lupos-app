@@ -1,6 +1,8 @@
 #root {
-  display: flex;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 /* Sidebar Styling */
@@ -47,13 +49,26 @@
   height: 30px;
 }
 
+.dashboard-content {
+  display: block;
+  min-height: 100vh;
+  margin-left: 110px;
+}
+
 /* Auth Forms Styling */
+.formWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
 .auth-form {
   background: linear-gradient(135deg, #262633 0%, #23232e 100%);
   padding: 4rem;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(0, 0, 0, 0.6);
-  width: 400px;
   margin: 4rem auto;
   animation: slideInUp 0.8s ease-out;
   backdrop-filter: blur(10px);
@@ -157,7 +172,7 @@
   box-shadow: 0 6px 20px rgba(199, 125, 61, 0.4);
 }
 
-.form-ph{
+.form-ph {
   color: #737373;
 }
 
@@ -196,6 +211,7 @@
     opacity: 0;
     transform: translateY(50px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -207,6 +223,7 @@
     opacity: 0;
     transform: translateY(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -217,6 +234,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -226,6 +244,7 @@
 
 /* Smooth transitions for reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+
   .auth-form,
   .form-title,
   .form-label,
@@ -233,7 +252,7 @@
   .form-submit {
     animation: none;
   }
-  
+
   .form-input,
   .form-submit {
     transition: none;
