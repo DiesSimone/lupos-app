@@ -35,6 +35,22 @@ export async function postLoginAxios(data) {
     return res.data;
 }
 
+export async function postTask(data){
+    const res = await axios.post(
+        `${URL}/api/taskcreate`,
+        {
+            data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        {
+            withCredentials: true,
+        }
+    );
+    return res.data;
+}
+
 export async function getStatusAxios() {
     const res = await axios.get(
         `${URL}/api/status`,

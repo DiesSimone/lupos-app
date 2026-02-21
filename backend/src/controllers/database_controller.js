@@ -1,4 +1,5 @@
 const User = require("../../models/users.js");
+const Task = require("../../models/tasks.js");
 const bcrypt = require("bcrypt");
 
 async function userCreation(req, res) {
@@ -67,15 +68,38 @@ async function sessionCheck(req, res) {
     }
 }
 
-async function getUsername(req, res){
+async function getUsername(req, res) {
     try {
         const userId = await req.session.userId
-        const user = await User.findOne({_id: userId})
+        const user = await User.findOne({ _id: userId })
         console.log(user);
-        return res.json({username: user.username});
+        return res.json({ username: user.username });
     } catch (error) {
         console.log(`There has been an error with getting the username ${error}`);
     }
 }
 
-module.exports = { userCreation, userLogging, sessionCheck, getUsername }
+async function createTask(req, res){
+    try {
+        Task.create({
+            user_id: req.session.userId,
+            name: req.body.data.taskName,
+            date: new Date(Date.now())
+        });
+        console.log("A task has been created");
+        res.status(200).json({message: "Task created succesfully"})
+    } catch (error) {
+        console.log(`There has been an error with getting the tasks ${error}`);
+    }
+}
+
+async function getTasks(req, res) {
+    try {
+        const task = Task.find({user_id: req.session.userId});
+        console.log(task);
+    } catch (error) {
+        console.log(`There has been an error with getting the tasks ${error}`);
+    }
+}
+
+module.exports = { userCreation, userLogging, sessionCheck, getUsername, createTask }
