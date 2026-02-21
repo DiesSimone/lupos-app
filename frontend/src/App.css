@@ -205,6 +205,10 @@
   width: 100%;
 }
 
+.tasks-container {
+  margin-left: 125px;
+}
+
 /* Animations */
 @keyframes slideInUp {
   from {
