@@ -209,6 +209,11 @@
   margin-left: 125px;
 }
 
+.error-wrapper{
+  display: flex;
+  justify-content: center;
+}
+
 /* Animations */
 @keyframes slideInUp {
   from {

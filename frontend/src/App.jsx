@@ -4,6 +4,7 @@ import Register from './Register.jsx'
 import Login from './Login.jsx'
 import Dashboard from './Dashboard.jsx'
 import Tasks from './Tasks.jsx'
+import ErrorPage from './404.jsx'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/register' element={<Register />}/>
         <Route path='/dashboard' element={<Dashboard />}/>
         <Route path='/tasks' element={<Tasks />}/>
+        <Route path='*' element={<ErrorPage />}/>
       </Routes>
     </BrowserRouter>
   )

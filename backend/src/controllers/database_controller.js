@@ -102,4 +102,4 @@ async function getTasks(req, res) {
     }
 }
 
-module.exports = { userCreation, userLogging, sessionCheck, getUsername, createTask }
+module.exports = { userCreation, userLogging, sessionCheck, getUsername, createTask, getTasks }

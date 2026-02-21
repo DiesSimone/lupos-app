@@ -7,5 +7,6 @@ router.post("/login", dbController.userLogging);
 router.post("/taskcreate", dbController.createTask);
 router.get("/status", dbController.sessionCheck);
 router.get("/getname", dbController.getUsername);
+router.get("/gettasks", dbController.getTasks);
 
 module.exports = router

@@ -1,4 +1,4 @@
-# LUPOS APP 🚀
+# LUPOS APP 
 
 ## Overview
 
@@ -15,28 +15,28 @@ At its core, LUPOS APP is built on a simple but powerful philosophy:
 
 ## Key Features
 
-### 🎯 Smart Dashboard
+###  Smart Dashboard
 Your personalized command center that gives you an at-a-glance view of your progress, current goals, and actionable insights.
 
-### ✅ Intelligent Task Management
+###  Intelligent Task Management
 Organize, prioritize, and execute tasks with precision. Never lose track of what matters most.
 
-### 📅 Calendar Integration
+###  Calendar Integration
 Plan strategically with integrated calendar functionality to see your commitments and habits aligned with your schedule.
 
-### 🔄 Habit Tracking
+###  Habit Tracking
 Build unbreakable habits by tracking consistent daily actions. Visualize streaks and trends that fuel motivation.
 
-### 📊 Advanced Analytics
+###  Advanced Analytics
 Deep-dive into your productivity data with comprehensive analytics. Understand your patterns, measure progress, and identify areas for optimization.
 
-### ⚙️ Customizable Settings
+###  Customizable Settings
 Tailor the app to your specific needs and preferences.
 
-### 👤 Community Chats
+###  Community Chats
 Meet new mind-like people
 
-### 🤖 Wolfy AI Assistant
+###  Wolfy AI Assistant
 Integrated AI assistant that supports you in:
 - **Strategic Decision-Making**: Get intelligent recommendations based on your goals and patterns
 - **Progress Tracking**: Automatically analyze your habits and provide insights
@@ -85,8 +85,8 @@ npm install
 
 3. Create a `.env` file and insert your values:
 ```
-PORT=
-DATABASE_URI=
+PORT=your_backend_port
+DATABASE_URI=your_database_url
 ```
 
 4. Start the development server:
@@ -108,7 +108,7 @@ npm install
 
 3. Create a `.env.local` file with:
 ```
-VITE_API_URL=[YOUR_BACKEND_URL]
+VITE_API_URL=your_backend_url
 ```
 
 4. Start the development server:
