@@ -2,13 +2,26 @@ import Sidebar from './Sidebar.jsx'
 import { useState, useEffect } from 'react'
 import { postTask, getTask } from './ApiReqs.jsx'
 
+function RenderTasks({ tasks }) {
+    const taskList = tasks.map((el) => {
+        return (
+            <li key={el._id}>
+                <p>{el.name}</p>
+            </li>
+        )
+    });
+
+    console.log(taskList)
+
+    return <ul>{taskList}</ul>
+}
+
 function Tasks() {
     const [task, setTask] = useState('');
-    // const [tasks, setTasks] = useState('');
-    let taskArray;
+    const [tasks, setTasks] = useState([]);
 
     function handleTask(e) {
-        setTask(e.target.value)
+        setTask(e.target.value);
     }
 
     function handleSubmit(e) {
@@ -33,7 +46,8 @@ function Tasks() {
                 const data = await getTask();
                 // setTasks(data);
                 console.log(data);
-                taskArray = data;
+                setTasks(data);
+                // console.log(tasks);
             } catch (error) {
                 console.log(`[TASKFETCHING-ERROR] There has been an error: ${error}`);
             }
@@ -50,7 +64,7 @@ function Tasks() {
                     <input type="submit" name="submit" className="taskbtn" />
                 </form>
                 <div className="tasks-display">
-
+                    <RenderTasks tasks={tasks} />
                 </div>
             </div>
         </div>
