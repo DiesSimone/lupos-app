@@ -76,3 +76,16 @@ export async function getUsername(){
     )
     return res.data.username;
 }
+
+export async function getTask(){
+    const res = await axios.get(
+        `${URL}/api/gettasks`,
+        {
+            withCredentials: true,
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        },
+    );
+    return res.data
+}

@@ -95,10 +95,12 @@ async function createTask(req, res){
 
 async function getTasks(req, res) {
     try {
-        const task = Task.find({user_id: req.session.userId});
-        console.log(task);
+        console.log(req.session.userId)
+        const task = await Task.find({user_id: req.session.userId});
+        res.status(200).json(task);
     } catch (error) {
         console.log(`There has been an error with getting the tasks ${error}`);
+        res.status(400).json({error: "Failed to fetch tasks"})
     }
 }
 
