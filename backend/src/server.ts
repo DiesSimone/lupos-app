@@ -1,9 +1,13 @@
 require("dotenv").config();
-const express = require("express");
-const { connectDb } = require("./db");
-const session = require("express-session");
-const cors = require("cors");
-const apiRoute = require("./src/routes/database_router");
+import express, {Request, Response, NextFunction} from 'express'
+// const { connectDb } = require("./db");
+import connectDb  from './db'
+// const session = require("express-session");
+import session from 'express-session'
+// const cors = require("cors");
+import cors from 'cors'
+// const apiRoute = require("./routes/database_router");
+import apiRoute from './routes/database_router'
 const app = express();
 const PORT = process.env.PORT;
 
@@ -27,7 +31,7 @@ app.use(session({
 }))
 app.use("/api", apiRoute);
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
     res.send("CIAO");
 })
 

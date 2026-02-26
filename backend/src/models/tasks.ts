@@ -1,6 +1,12 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose'
 
-const taskSchema = new mongoose.Schema({
+interface ITask {
+    user_id: string,
+    name: string,
+    date: Date
+}
+
+const taskSchema = new mongoose.Schema<ITask>({
     user_id: {
         type: String,
         required: true,
@@ -20,4 +26,4 @@ const taskSchema = new mongoose.Schema({
 
 const task = mongoose.model("Task", taskSchema);
 
-module.exports = task
+export default task

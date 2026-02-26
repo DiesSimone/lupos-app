@@ -10,9 +10,7 @@ function RenderTasks({ tasks }) {
             </li>
         )
     });
-
-    console.log(taskList)
-
+    // console.log(taskList);
     return <ul>{taskList}</ul>
 }
 

@@ -5,4 +5,4 @@ async function connectDb(){
     await mongoose.connect(process.env.DATABASE_URI);
 }
 
-module.exports = {connectDb}
+export default connectDb
