@@ -1,7 +1,7 @@
 import axios from 'axios'
 const URL = import.meta.env.VITE_API_URL;
 
-export async function postRegisterAxios(data) {
+export async function postRegisterAxios(data: Object) {
     console.log(`${URL}/db/register`)
     //simple post request using axios
     const res = await axios.post(
@@ -17,7 +17,7 @@ export async function postRegisterAxios(data) {
     return res.data;
 }
 
-export async function postLoginAxios(data) {
+export async function postLoginAxios(data: Object) {
     console.log(`${URL}/api/login`)
     const res = await axios.post(
         `${URL}/api/login`,
@@ -35,7 +35,7 @@ export async function postLoginAxios(data) {
     return res.data;
 }
 
-export async function postTask(data){
+export async function postTask(data: Object){
     const res = await axios.post(
         `${URL}/api/taskcreate`,
         {

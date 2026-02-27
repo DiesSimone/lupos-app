@@ -1,6 +1,6 @@
 import { useState} from 'react'
 import { Link } from 'react-router-dom'
-import { postRegisterAxios } from './ApiReqs.jsx'
+import { postRegisterAxios } from './ApiReqs.js'
 
 function Register() {
     const [name, setName] = useState("");
@@ -8,19 +8,19 @@ function Register() {
     const [password, setPassword] = useState("");
     const [data, setData] = useState("");
 
-    function handleName(e) {
+    function handleName(e: React.ChangeEvent<HTMLInputElement>) {
         setName(e.target.value);
     }
 
-    function handleMail(e) {
+    function handleMail(e: React.ChangeEvent<HTMLInputElement>) {
         setEmail(e.target.value);
     }
 
-    function handlePassword(e) {
+    function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
         setPassword(e.target.value);
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
         // alert(`Name: ${name}, Email: ${email}, Password: ${password}`);
 

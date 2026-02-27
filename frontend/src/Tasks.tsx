@@ -1,9 +1,16 @@
-import Sidebar from './Sidebar.jsx'
+import Sidebar from './Sidebar.js'
 import { useState, useEffect } from 'react'
-import { postTask, getTask } from './ApiReqs.jsx'
+import { postTask, getTask } from './ApiReqs.js'
 
-function RenderTasks({ tasks }) {
-    const taskList = tasks.map((el) => {
+type Task = {
+    _id: string,
+    user_id: string,
+    name: string,
+    date: Date
+}
+
+function RenderTasks({ tasks }: any) {
+    const taskList = tasks.map((el: Task) => {
         return (
             <li key={el._id}>
                 <p>{el.name}</p>
@@ -18,11 +25,11 @@ function Tasks() {
     const [task, setTask] = useState('');
     const [tasks, setTasks] = useState([]);
 
-    function handleTask(e) {
+    function handleTask(e: React.ChangeEvent<HTMLInputElement>) {
         setTask(e.target.value);
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
         // console.log(task);
         const sendTaskAxios = async () => {

@@ -1,10 +1,10 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import './App.css'
-import Register from './Register.jsx'
-import Login from './Login.jsx'
-import Dashboard from './Dashboard.jsx'
-import Tasks from './Tasks.jsx'
-import ErrorPage from './404.jsx'
+import Register from './Register.js'
+import Login from './Login.js'
+import Dashboard from './Dashboard.js'
+import Tasks from './Tasks.js'
+import ErrorPage from './404.js'
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import { getStatusAxios, getUsername } from "./ApiReqs";
 import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar.jsx";
+import Sidebar from "./Sidebar.js";
 
 function Dashboard() {
     const [data, setData] = useState('');
@@ -36,6 +36,7 @@ function Dashboard() {
             <div className="dashboard-content">
                 <h1>Welcome back, {name}</h1>
                 <button onClick={getStatus}>Check status</button>
+                <h3>PORCO BUTANO</h3>
             </div>
         </>
     )

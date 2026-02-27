@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { postLoginAxios } from './ApiReqs.jsx'
+import { postLoginAxios } from './ApiReqs.js'
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -8,15 +8,17 @@ function Login() {
     const [dataLogin, setDataLogin] = useState("");
     const navigate = useNavigate();
 
-    function handleMail(e) {
+    //React.ChangeEvent<HTMLInputElement> type, is for input elements
+
+    function handleMail(e: React.ChangeEvent<HTMLInputElement>) {
         setEmail(e.target.value);
     }
 
-    function handlePassword(e) {
+    function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
         setPassword(e.target.value);
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
         // alert(`Email: ${email}, Password: ${password}`);
         const postWithAxios = async () => {
