@@ -1,10 +1,11 @@
-import {Request, Response} from 'express'
-// const User = require("../models/users.js");
-// const Task = require("../models/tasks.js");
-// const bcrypt = require("bcrypt");
+import {Request, Response, NextFunction} from 'express'
+import { AuthRequest } from '../middlewares/middlewares'
 import bcrypt from 'bcrypt'
 import User from '../models/users'
 import Task from '../models/tasks'
+import jwt from 'jsonwebtoken'
+const accessSecret: string = process.env.ACCESS_TOKEN_SECRET!
+const refreshSecret: string = process.env.REFRESH_TOKEN_SECRET!
 
 export async function userCreation(req: Request, res: Response) {
     console.log(req.body);
@@ -26,20 +27,13 @@ export async function userCreation(req: Request, res: Response) {
 export async function userLogging(req: Request, res: Response) {
     try {
         const user = await User.findOne({ email: req.body.data.email });
+        console.log(user)
         if (!user || user === null) {
             return res.status(401).json({ message: "User not found" });
         }
         if (await bcrypt.compare(req.body.data.password, user.password)) {
-            req.session.userId = user._id.toString()
-            console.log(`[USER-LOGGING] session id: ${req.sessionID}`);
-            console.log(`[USER-LOGGING] session id: ${req.session.userId}`);
-            req.session.save((err) => {
-                if (err) {
-                    console.log('There has been an error with the saving of the session');
-                }
-                console.log("Saving the session");
-            })
-            res.status(200).json({ message: `Successfully logged in as ${user.username}` });
+            const accessToken = jwt.sign(user.toJSON(), accessSecret)
+            res.status(200).json({ message: `Successfully logged in as ${user.username}`, accessToken: accessToken });
             console.log(`${user.username} has succesfully logged in!`);
         } else {
             res.status(401).json({ message: "Not authorized" });
@@ -72,9 +66,10 @@ export async function sessionCheck(req: Request, res: Response) {
     }
 }
 
-export async function getUsername(req: Request, res: Response) {
+export async function getUsername(req: AuthRequest, res: Response) {
     try {
-        const userId = await req.session.userId
+        const userId = await req.user!._id
+        console.log(userId)
         const user = await User.findOne({ _id: userId })
         console.log(user);
         return res.json({ username: user!.username });
