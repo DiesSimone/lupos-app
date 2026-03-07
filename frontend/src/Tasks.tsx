@@ -1,6 +1,8 @@
 import Sidebar from './Sidebar.js'
 import { useState, useEffect } from 'react'
 import { postTask, getTask } from './ApiReqs.js'
+import { AuthContext } from './LevelContext.js'
+import { useContext } from 'react'
 
 type Task = {
     _id: string,
@@ -22,8 +24,10 @@ function RenderTasks({ tasks }: any) {
 }
 
 function Tasks() {
+    const context = useContext(AuthContext)
     const [task, setTask] = useState('');
     const [tasks, setTasks] = useState([]);
+    const {accessToken, setAccessToken} = context!
 
     function handleTask(e: React.ChangeEvent<HTMLInputElement>) {
         setTask(e.target.value);
@@ -36,7 +40,7 @@ function Tasks() {
             try {
                 const sendTask = await postTask({
                     taskName: task
-                })
+                }, accessToken)
                 console.log("Task sent");
             } catch (error) {
                 console.log(`[TASK-ERROR] There has been an error with sending the task: ${error}`)
@@ -48,7 +52,7 @@ function Tasks() {
     useEffect(() => {
         const fetchingTasks = async () => {
             try {
-                const data = await getTask();
+                const data = await getTask(accessToken);
                 // setTasks(data);
                 console.log(data);
                 setTasks(data);

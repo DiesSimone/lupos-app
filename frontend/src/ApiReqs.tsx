@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { useContext } from 'react';
+import { AuthContext } from './LevelContext';
 const URL = import.meta.env.VITE_API_URL;
 
 export async function postRegisterAxios(data: Object) {
@@ -35,17 +37,32 @@ export async function postLoginAxios(data: Object) {
     return res.data;
 }
 
-export async function postTask(data: Object){
+export async function postTask(data: Object, accessToken: string) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+    }
     const res = await axios.post(
+        // `${URL}/api/taskcreate`,
+        // {
+        //     data,
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${accessToken}`
+        //     }
+        //     // headers
+        // },
+        // {
+        //     withCredentials: true,
+        // }
         `${URL}/api/taskcreate`,
-        {
-            data,
+        data, // <--- Secondo parametro: il CORPO della richiesta (senza header dentro!)
+        {     // <--- Terzo parametro: la CONFIGURAZIONE
             headers: {
-                'Content-Type': 'application/json'
-            }
-        },
-        {
-            withCredentials: true,
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            withCredentials: true
         }
     );
     return res.data;
@@ -64,26 +81,28 @@ export async function getStatusAxios() {
     return res.data;
 }
 
-export async function getUsername(){
+export async function getUsername(accessToken: string) {
     const res = await axios.get(
         `${URL}/api/getname`,
         {
             withCredentials: true,
             headers: {
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${accessToken}`
             }
         }
     )
+    console.log(res.data.username)
     return res.data.username;
 }
 
-export async function getTask(){
+export async function getTask(accessToken: string) {
     const res = await axios.get(
         `${URL}/api/gettasks`,
         {
             withCredentials: true,
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             }
         },
     );

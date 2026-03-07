@@ -19,17 +19,18 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use(session({
-    secret: "trialsecret",
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 1000*60*60*24*7,
-        sameSite: 'lax',
-        secure: false,
-        httpOnly: true
-    }
-}))
+// app.use(session({
+//     secret: "trialsecret",
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: {
+//         maxAge: 1000*60*60*24*7,
+//         sameSite: 'lax',
+//         secure: false,
+//         httpOnly: true
+//     }
+// }))
+
 app.use("/api", apiRoute);
 
 app.get("/", (req: Request, res: Response) => {

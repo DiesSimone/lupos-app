@@ -1,15 +1,18 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { data, Link, useNavigate } from 'react-router-dom'
 import { postLoginAxios } from './ApiReqs.js'
+import { AuthContext } from './LevelContext.js';
+import { useContext } from 'react';
 
 function Login() {
+    const context = useContext(AuthContext) //declaring which context i'm using (in this case the one for auth)
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [dataLogin, setDataLogin] = useState("");
-    const navigate = useNavigate();
+    const {accessToken, setAccessToken} = context!
 
     //React.ChangeEvent<HTMLInputElement> type, is for input elements
-
     function handleMail(e: React.ChangeEvent<HTMLInputElement>) {
         setEmail(e.target.value);
     }
@@ -27,7 +30,7 @@ function Login() {
                     email: email,
                     password: password,
                 });
-                setDataLogin(postData.data)
+                setAccessToken(postData.accessToken)
                 console.log("Login submitted");
             } catch (error) {
                 console.log(`[LOGIN-ERROR] There has been an error with the login: ${error}`)

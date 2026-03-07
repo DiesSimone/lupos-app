@@ -1,10 +1,14 @@
 import { getStatusAxios, getUsername } from "./ApiReqs";
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar.js";
+import { AuthContext } from './LevelContext.js';
+import { useContext } from 'react';
 
 function Dashboard() {
+    const context = useContext(AuthContext)
     const [data, setData] = useState('');
     const [name, setName] = useState('');
+    const {accessToken, setAccessToken} = context!
 
     const getStatus = async () => {
         try {
@@ -19,7 +23,7 @@ function Dashboard() {
     useEffect(() => {
         const getName = async () => {
             try {
-                const username = await getUsername();
+                const username = await getUsername(accessToken);
                 setName(username);
             } catch (error) {
                 console.log(`[GETNAME-ERROR] There has been an error with getting the name: ${error}`);

@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.post("/register", userCreation);
 router.post("/login", userLogging);
-router.post("/taskcreate", createTask);
+router.post("/taskcreate", AuthenticateToken, createTask);
 router.get("/status", sessionCheck);
 router.get("/getname", AuthenticateToken, getUsername);
-router.get("/gettasks", getTasks);
+router.get("/gettasks", AuthenticateToken ,getTasks);
 router.post("/token", getToken)
 router.delete("/logout", deleteToken)
 
