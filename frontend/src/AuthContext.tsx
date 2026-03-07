@@ -6,7 +6,7 @@ interface AuthProviderProps {
     children: React.ReactNode
 }
 
-//creating the context of the thing
+//creating the context which will contain all the data needed across the entire app
 export const AuthContext = createContext<{
     accessToken: string;
     setAccessToken: (value: string) => void;
@@ -14,7 +14,7 @@ export const AuthContext = createContext<{
 } | null>(null);
 
 
-//creating the element which we will pass the token (a wrapper currently), so it can be memorized
+//creating the element which will wrap the entire APP, so data can be retrieved across all application
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [accessToken, setAccessToken] = useState("")
 

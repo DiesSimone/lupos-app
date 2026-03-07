@@ -9,6 +9,8 @@ import settings from './assets/settings.svg'
 function Sidebar(){
     const navigate = useNavigate();
 
+    //Defining the frontend endpoints the function will bring, the endpoints must be defined in App.tsx
+
     function tasklistRoute(){
         navigate("/tasks");
     }

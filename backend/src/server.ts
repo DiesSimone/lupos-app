@@ -1,13 +1,8 @@
 require("dotenv").config();
-import express, {Request, Response, NextFunction} from 'express'
-// const { connectDb } = require("./db");
+import express, {Request, Response} from 'express'
 import connectDb  from './db'
-// const session = require("express-session");
-import session from 'express-session'
-// const cors = require("cors");
 import cors from 'cors'
-// const apiRoute = require("./routes/database_router");
-import apiRoute from './routes/database_router'
+import apiRoute from './routes/api_router'
 const app = express();
 const PORT = process.env.PORT;
 
@@ -18,18 +13,6 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
-// app.use(session({
-//     secret: "trialsecret",
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: {
-//         maxAge: 1000*60*60*24*7,
-//         sameSite: 'lax',
-//         secure: false,
-//         httpOnly: true
-//     }
-// }))
 
 app.use("/api", apiRoute);
 

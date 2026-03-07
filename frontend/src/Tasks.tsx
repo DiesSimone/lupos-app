@@ -13,6 +13,8 @@ type Task = {
 
 function RenderTasks({ tasks }: any) {
     console.log(`Tasks: ${tasks}`)
+
+    //mapping the task parameter, to create a list element for each task inside of the task array, the array will be a collection of lists
     const taskList = tasks.map((el: Task) => {
         return (
             <li key={el._id}>
@@ -20,23 +22,23 @@ function RenderTasks({ tasks }: any) {
             </li>
         )
     });
-    // console.log(taskList);
     return <ul>{taskList}</ul>
 }
 
 function Tasks() {
+    //using the AuthContext to get the tokens
     const context = useContext(AuthContext)
     const [task, setTask] = useState('');
     const [tasks, setTasks] = useState([]);
     const {accessToken, setAccessToken, UpdateToken} = context!
 
+    //memorizes the user's input of the new task
     function handleTask(e: React.ChangeEvent<HTMLInputElement>) {
         setTask(e.target.value);
     }
 
     function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
-        // console.log(task);
         const sendTaskAxios = async () => {
             try {
                 const sendTask = await postTask({
@@ -54,10 +56,9 @@ function Tasks() {
         const fetchingTasks = async () => {
             try {
                 const data = await getTask(accessToken, UpdateToken);
-                // setTasks(data);
-                console.log(data);
+
+                //memorizing the fetched tasks into the tasks variable, will then be rendered with the RenderTask()
                 setTasks(data);
-                // console.log(tasks);
             } catch (error) {
                 console.log(`[TASKFETCHING-ERROR] There has been an error: ${error}`);
             }

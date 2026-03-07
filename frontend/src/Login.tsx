@@ -9,7 +9,6 @@ function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [dataLogin, setDataLogin] = useState("");
     const {accessToken, setAccessToken} = context!
 
     //React.ChangeEvent<HTMLInputElement> type, is for input elements
@@ -23,13 +22,13 @@ function Login() {
 
     function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
-        // alert(`Email: ${email}, Password: ${password}`);
         const postWithAxios = async () => {
             try {
                 const postData = await postLoginAxios({
                     email: email,
                     password: password,
                 });
+                //memorizing the new accessToken
                 setAccessToken(postData.accessToken)
                 console.log("Login submitted");
             } catch (error) {

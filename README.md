@@ -51,7 +51,7 @@ LUPOS APP is built using the **MERN** stack—a modern, robust architecture for 
 - **Node.js + Express.js**: Fast, scalable server-side runtime and web framework
 - **MongoDB**: NoSQL database for flexible, document-based data storage
 - **Mongoose**: Object data modeling (ODM) for MongoDB
-- **Authentication & Sessions**: Secure authentication and user session management
+- **Authentication & JSON Web Token**: Secure authentication and session managements with tokens
 - **bcrypt**: Industry-standard password hashing for security
 
 ### Frontend
@@ -122,16 +122,19 @@ The frontend will be available at `http://localhost:5173`
 
 - `POST /api/register` - Register a new user
 - `POST /api/login` - User login
-- `GET /api/status` - Check authentication status
+- `POST /api/taskcreate` - Create new task
+- `POST /api/token` - Get a new access token
 - `GET /api/getname` - Get current user's username
+- `GET /api/gettasks` - Get user's tasks
+- `DELETE /api/logout` - Deletes user's refresh token
 
 ## Authentication
 
-The app uses **session-based authentication** with:
+The app uses **Json Web Token Authentication** with:
 - Password hashing via bcrypt
 - HTTP-only session cookies
 - CORS protection
-- Session persistence with MongoDB
+- Session persistence with tokens mechanism
 
 ## Contributing
 

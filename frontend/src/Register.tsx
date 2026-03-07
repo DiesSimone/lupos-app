@@ -22,7 +22,6 @@ function Register() {
 
     function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
-        // alert(`Name: ${name}, Email: ${email}, Password: ${password}`);
 
         const postWithAxios = async () => {
             try {

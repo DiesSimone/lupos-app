@@ -1,14 +1,13 @@
 import axios from 'axios'
-import { AuthProvider } from './AuthContext';
 const URL = import.meta.env.VITE_API_URL;
 
 export async function postRegisterAxios(data: Object) {
     console.log(`${URL}/db/register`)
+
     //simple post request using axios
     const res = await axios.post(
         `${URL}/api/register`,
         {
-
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -22,7 +21,6 @@ export async function postLoginAxios(data: Object) {
     console.log(`${URL}/api/login`)
     const res = await axios.post(
         `${URL}/api/login`,
-        // `http://localhost:5173/api/login`,
         {
             data,
             headers: {
@@ -51,19 +49,6 @@ export async function postTask(data: Object, accessToken: string) {
     return res.data;
 }
 
-export async function getStatusAxios() {
-    const res = await axios.get(
-        `${URL}/api/status`,
-        {
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }
-    );
-    return res.data;
-}
-
 export async function getUsername(accessToken: string, UpdateToken?: (newToken: string) => void) {
     try {
         const res = await axios.get(
@@ -79,13 +64,14 @@ export async function getUsername(accessToken: string, UpdateToken?: (newToken: 
         console.log(res.status)
         return res.data.username;
     } catch (error: any) {
-        console.log("You stupid gooner")
-        console.log(error.toJSON().status)
+        //checks if the error is about unauthorization (invalid token)
         if (error.toJSON().status == 401 || error.toJSON().status == 403) {
+
+            //getting a new accessToken
             const resToken = await axios.post(
                 `${URL}/api/token`,
                 {
-
+                    //data payload
                 },
                 {
                     withCredentials: true,
@@ -95,7 +81,8 @@ export async function getUsername(accessToken: string, UpdateToken?: (newToken: 
                 }
             )
             const newAccessToken = resToken.data.accessToken
-            console.log(newAccessToken)
+
+            //memorizes the new token, only if the method UpdateToken is passed into the function
             if (UpdateToken) {
                 UpdateToken(newAccessToken)
             }
@@ -127,7 +114,8 @@ export async function getTask(accessToken: string, UpdateToken?: (newToken: stri
         );
         return res.data
     } catch (error: any) {
-        console.log(error.toJSON().status)
+
+        //checks if error is about unauthorization (invalid token)
         if (error.toJSON().status == 401 || error.toJSON().status == 403) {
             const resToken = await axios.post(
                 `${URL}/api/token`,
@@ -142,7 +130,6 @@ export async function getTask(accessToken: string, UpdateToken?: (newToken: stri
                 }
             )
             const newAccessToken = resToken.data.accessToken
-            console.log(newAccessToken)
             if (UpdateToken) {
                 UpdateToken(newAccessToken)
             }
