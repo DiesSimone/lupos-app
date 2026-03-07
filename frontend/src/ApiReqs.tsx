@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { useContext } from 'react';
-import { AuthContext } from './LevelContext';
+import { AuthProvider } from './AuthContext';
 const URL = import.meta.env.VITE_API_URL;
 
 export async function postRegisterAxios(data: Object) {
@@ -38,26 +37,10 @@ export async function postLoginAxios(data: Object) {
 }
 
 export async function postTask(data: Object, accessToken: string) {
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
-    }
     const res = await axios.post(
-        // `${URL}/api/taskcreate`,
-        // {
-        //     data,
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${accessToken}`
-        //     }
-        //     // headers
-        // },
-        // {
-        //     withCredentials: true,
-        // }
         `${URL}/api/taskcreate`,
-        data, // <--- Secondo parametro: il CORPO della richiesta (senza header dentro!)
-        {     // <--- Terzo parametro: la CONFIGURAZIONE
+        data,
+        {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
@@ -81,30 +64,98 @@ export async function getStatusAxios() {
     return res.data;
 }
 
-export async function getUsername(accessToken: string) {
-    const res = await axios.get(
-        `${URL}/api/getname`,
-        {
-            withCredentials: true,
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
+export async function getUsername(accessToken: string, UpdateToken?: (newToken: string) => void) {
+    try {
+        const res = await axios.get(
+            `${URL}/api/getname`,
+            {
+                withCredentials: true,
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
             }
+        )
+        console.log(res.data)
+        console.log(res.status)
+        return res.data.username;
+    } catch (error: any) {
+        console.log("You stupid gooner")
+        console.log(error.toJSON().status)
+        if (error.toJSON().status == 401 || error.toJSON().status == 403) {
+            const resToken = await axios.post(
+                `${URL}/api/token`,
+                {
+
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            const newAccessToken = resToken.data.accessToken
+            console.log(newAccessToken)
+            if (UpdateToken) {
+                UpdateToken(newAccessToken)
+            }
+            const res = await axios.get(
+                `${URL}/api/getname`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Authorization': `Bearer ${newAccessToken}`
+                    }
+                }
+            )
+            return res.data.username
         }
-    )
-    console.log(res.data.username)
-    return res.data.username;
+    }
 }
 
-export async function getTask(accessToken: string) {
-    const res = await axios.get(
-        `${URL}/api/gettasks`,
-        {
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
+export async function getTask(accessToken: string, UpdateToken?: (newToken: string) => void) {
+    try {
+        const res = await axios.get(
+            `${URL}/api/gettasks`,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            },
+        );
+        return res.data
+    } catch (error: any) {
+        console.log(error.toJSON().status)
+        if (error.toJSON().status == 401 || error.toJSON().status == 403) {
+            const resToken = await axios.post(
+                `${URL}/api/token`,
+                {
+
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            const newAccessToken = resToken.data.accessToken
+            console.log(newAccessToken)
+            if (UpdateToken) {
+                UpdateToken(newAccessToken)
             }
-        },
-    );
-    return res.data
+            const res = await axios.get(
+                `${URL}/api/gettasks`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Authorization': `Bearer ${newAccessToken}`
+                    }
+                }
+            )
+            return res.data
+        }
+    }
 }

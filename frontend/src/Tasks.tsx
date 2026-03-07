@@ -1,7 +1,7 @@
 import Sidebar from './Sidebar.js'
 import { useState, useEffect } from 'react'
 import { postTask, getTask } from './ApiReqs.js'
-import { AuthContext } from './LevelContext.js'
+import { AuthContext } from './AuthContext.js'
 import { useContext } from 'react'
 
 type Task = {
@@ -12,6 +12,7 @@ type Task = {
 }
 
 function RenderTasks({ tasks }: any) {
+    console.log(`Tasks: ${tasks}`)
     const taskList = tasks.map((el: Task) => {
         return (
             <li key={el._id}>
@@ -27,7 +28,7 @@ function Tasks() {
     const context = useContext(AuthContext)
     const [task, setTask] = useState('');
     const [tasks, setTasks] = useState([]);
-    const {accessToken, setAccessToken} = context!
+    const {accessToken, setAccessToken, UpdateToken} = context!
 
     function handleTask(e: React.ChangeEvent<HTMLInputElement>) {
         setTask(e.target.value);
@@ -52,7 +53,7 @@ function Tasks() {
     useEffect(() => {
         const fetchingTasks = async () => {
             try {
-                const data = await getTask(accessToken);
+                const data = await getTask(accessToken, UpdateToken);
                 // setTasks(data);
                 console.log(data);
                 setTasks(data);
