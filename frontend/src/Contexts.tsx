@@ -6,6 +6,10 @@ interface AuthProviderProps {
     children: React.ReactNode
 }
 
+interface RenderProviderProps {
+    children: React.ReactNode
+}
+
 //creating the context which will contain all the data needed across the entire app
 export const AuthContext = createContext<{
     accessToken: string;
@@ -26,5 +30,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         <AuthContext.Provider value={{ accessToken, setAccessToken, UpdateToken }}>
             {children}
         </AuthContext.Provider>
+    )
+}
+
+export const RenderContext = createContext<{
+    render: string;
+    checkRender: (value: string) => void;
+} | null>(null);
+
+export const RenderProvider = ({ children }: RenderProviderProps) => {
+    const [render, checkRender] = useState("");
+
+    return (
+        <RenderContext.Provider value={{ render, checkRender }}>
+            {children}
+        </RenderContext.Provider>
     )
 }

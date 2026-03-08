@@ -1,7 +1,7 @@
 import { getUsername } from "./ApiReqs";
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar.js";
-import { AuthContext } from './AuthContext.js';
+import { AuthContext } from './Contexts.js';
 import { useContext } from 'react';
 
 function Dashboard() {
