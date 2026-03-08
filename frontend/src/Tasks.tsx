@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { postTask, getTask, deleteTask } from './ApiReqs.js'
 import { AuthContext } from './AuthContext.js'
 import { useContext } from 'react'
+import submitLogo from './assets/submit.svg'
+import trashcan from './assets/trashcan.svg'
 
 type Task = {
     _id: string,
@@ -17,8 +19,9 @@ function RenderTasks({ tasks }: any) {
     const taskList = tasks.map((el: Task) => {
         return (
             <li key={el._id}>
+                <input type="checkbox" />
                 <p>{el.name}</p>
-                <button onClick={() => eraseTask(el._id)}>Dolete</button>
+                <button onClick={() => eraseTask(el._id)}><img src={trashcan} alt="delete logo"/></button>
             </li>
         )
     });
@@ -82,9 +85,10 @@ function Tasks() {
         <div className="tasks-wrapper" id="tasks-wrapper">
             <Sidebar />
             <div className="tasks-container">
+                <h1>Today's Tasks</h1>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" onChange={handleTask} required />
-                    <input type="submit" name="submit" className="taskbtn" />
+                    <input type="text" onChange={handleTask} required placeholder='Enter your new task here'/>
+                    <input type="image" src={submitLogo} alt="submit-img" name="submit" className="taskbtn" />
                 </form>
                 <div className="tasks-display">
                     <RenderTasks tasks={tasks} />
