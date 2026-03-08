@@ -180,3 +180,22 @@ export async function getTask(accessToken: string, UpdateToken?: (newToken: stri
         }
     }
 }
+
+export async function deleteTask(data: Object){
+    try {
+        console.log('sending req to delete task');
+        console.log(data);
+        const res = await axios.post(
+            `${URL}/api/deletetask`,
+            data,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+    } catch (error: any) {
+        console.log(`There has been an error with deleting the task: ${error}`);
+    }
+}

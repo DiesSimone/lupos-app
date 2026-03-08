@@ -70,7 +70,7 @@ export async function getUsername(req: AuthRequest, res: Response) {
         return res.json({ username: user!.username });
     } catch (error) {
         console.log(`There has been an error with getting the username ${error}`);
-        return res.status(401).json({error: error})
+        return res.status(401).json({ error: error })
     }
 }
 
@@ -78,6 +78,7 @@ export async function createTask(req: AuthRequest, res: Response) {
     try {
         //getting the Id of the user to then create a new task associated with that specific user
         const userId = await req.user!._id
+        if (req.body.taskName == "") throw new Error("TNE");
         Task.create({
             user_id: userId,
             name: req.body.taskName,
@@ -86,6 +87,21 @@ export async function createTask(req: AuthRequest, res: Response) {
         res.status(200).json({ message: "Task created succesfully" })
     } catch (error) {
         console.log(`There has been an error with creating the tasks ${error}`);
+        if (error == "TNE") {
+            res.status(401).json({ message: "You must put something inside the task"})
+        }
+    }
+}
+
+export async function deleteTask(req: AuthRequest, res: Response){
+    try {
+        console.log('deleting task...');
+        const taskId = req.body.task_id;
+        const task = await Task.deleteOne({_id : taskId});
+        return res.status(200).json({message: "Task successfully deleted"});
+    } catch (error) {
+        console.log(`There has been an error with deleting the task ${error}`);
+        return res.status(401).json({ error: error })
     }
 }
 

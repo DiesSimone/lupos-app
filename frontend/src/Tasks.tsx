@@ -1,6 +1,6 @@
 import Sidebar from './Sidebar.js'
 import { useState, useEffect } from 'react'
-import { postTask, getTask } from './ApiReqs.js'
+import { postTask, getTask, deleteTask } from './ApiReqs.js'
 import { AuthContext } from './AuthContext.js'
 import { useContext } from 'react'
 
@@ -12,25 +12,34 @@ type Task = {
 }
 
 function RenderTasks({ tasks }: any) {
-    console.log(`Tasks: ${tasks}`)
 
     //mapping the task parameter, to create a list element for each task inside of the task array, the array will be a collection of lists
     const taskList = tasks.map((el: Task) => {
         return (
             <li key={el._id}>
                 <p>{el.name}</p>
+                <button onClick={() => eraseTask(el._id)}>Dolete</button>
             </li>
         )
     });
     return <ul>{taskList}</ul>
 }
 
+async function eraseTask(taskId: string) {
+    try {
+        await deleteTask({ task_id: taskId });
+    } catch (error) {
+        console.log(`[TASK-ERROR] There has been an error with deleting the task: ${error}`)
+    }
+}
+
 function Tasks() {
     //using the AuthContext to get the tokens
-    const context = useContext(AuthContext)
+    const context = useContext(AuthContext);
+    const [submit, checkSubmit] = useState(0);
     const [task, setTask] = useState('');
     const [tasks, setTasks] = useState([]);
-    const {accessToken, setAccessToken, UpdateToken} = context!
+    const { accessToken, setAccessToken, UpdateToken } = context!;
 
     //memorizes the user's input of the new task
     function handleTask(e: React.ChangeEvent<HTMLInputElement>) {
@@ -49,6 +58,9 @@ function Tasks() {
                 console.log(`[TASK-ERROR] There has been an error with sending the task: ${error}`)
             }
         }
+        //hook used just to trigger the useEffect below
+        checkSubmit(submit + 1);
+        setTask("")
         sendTaskAxios();
     }
 
@@ -64,14 +76,14 @@ function Tasks() {
             }
         }
         fetchingTasks();
-    }, []);
+    }, [submit]);
 
     return (
         <div className="tasks-wrapper" id="tasks-wrapper">
             <Sidebar />
             <div className="tasks-container">
                 <form onSubmit={handleSubmit}>
-                    <input type="text" onChange={handleTask} />
+                    <input type="text" onChange={handleTask} required />
                     <input type="submit" name="submit" className="taskbtn" />
                 </form>
                 <div className="tasks-display">
