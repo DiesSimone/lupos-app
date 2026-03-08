@@ -355,21 +355,15 @@ li button img {
 
 
 /* Form Styling */
-.task-form {
-  display: flex;
-  gap: 1rem;
-  padding: 2rem;
-  margin-bottom: 1rem;
-}
 
-form {
+.tasks-container form {
   display: flex;
   gap: 1rem;
   padding: 32px;
   padding-top: 10px
 }
 
-form input[type="text"] {
+.tasks-container form input[type="text"] {
   flex: 1;
   padding: 1.3rem 1rem;
   border: 1px solid #414262;

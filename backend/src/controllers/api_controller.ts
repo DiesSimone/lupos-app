@@ -110,7 +110,15 @@ export async function getTasks(req: AuthRequest, res: Response) {
         //getting the Id of the user to find all of his tasks
         const userId = await req.user!._id
         const tasks = await Task.find({ user_id: userId });
-        res.status(200).json(tasks);
+        const today = new Date();
+        const startToday = (Date.now() - today.setHours(0, 0, 0));
+        console.log(Date.now() - startToday);
+        const filteredTasksByDate = tasks.filter((task) => {
+            console.log(task.date.getTime());
+            return task.date < new Date(Date.now()) && task.date > new Date(Date.now() - startToday);
+        });
+        console.log(filteredTasksByDate);
+        res.status(200).json(filteredTasksByDate);
     } catch (error) {
         console.log(`There has been an error with getting the tasks ${error}`);
         res.status(400).json({ error: "Failed to fetch tasks" })
