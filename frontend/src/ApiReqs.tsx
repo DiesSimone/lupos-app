@@ -34,19 +34,53 @@ export async function postLoginAxios(data: Object) {
     return res.data;
 }
 
-export async function postTask(data: Object, accessToken: string) {
-    const res = await axios.post(
-        `${URL}/api/taskcreate`,
-        data,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            withCredentials: true
+export async function postTask(data: Object, accessToken: string, UpdateToken?: (newToken: string) => void) {
+    try {
+        const res = await axios.post(
+            `${URL}/api/taskcreate`,
+            data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                withCredentials: true
+            }
+        );
+        return res.data;
+    } catch (error: any) {
+        //checks if error is about unauthorization (invalid token)
+        if (error.toJSON().status == 401 || error.toJSON().status == 403) {
+            const resToken = await axios.post(
+                `${URL}/api/token`,
+                {
+                    //data payload
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            const newAccessToken = resToken.data.accessToken
+            if (UpdateToken) {
+                UpdateToken(newAccessToken)
+            }
+            const res = await axios.post(
+                `${URL}/api/taskcreate`,
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    withCredentials: true
+                }
+            );
+            return res.data;
         }
-    );
-    return res.data;
+    }
 }
 
 export async function getUsername(accessToken: string, UpdateToken?: (newToken: string) => void) {
@@ -120,7 +154,7 @@ export async function getTask(accessToken: string, UpdateToken?: (newToken: stri
             const resToken = await axios.post(
                 `${URL}/api/token`,
                 {
-
+                    //data payload
                 },
                 {
                     withCredentials: true,
