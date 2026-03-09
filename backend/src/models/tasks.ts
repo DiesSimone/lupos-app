@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 interface ITask {
     user_id: string,
     name: string,
+    completed: boolean,
     date: Date
 }
 
@@ -14,6 +15,11 @@ const taskSchema = new mongoose.Schema<ITask>({
     },
     name: {
         type: String,
+        required: true,
+        unique: false
+    },
+    completed: {
+        type: Boolean,
         required: true,
         unique: false
     },

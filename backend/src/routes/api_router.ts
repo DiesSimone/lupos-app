@@ -1,5 +1,5 @@
 import express from 'express'
-import { userCreation, userLogging, getUsername, createTask, getTasks, getToken, deleteToken, deleteTask } from '../controllers/api_controller'
+import { userCreation, userLogging, getUsername, createTask, getTasks, getToken, deleteToken, deleteTask, checkTask } from '../controllers/api_controller'
 import { AuthenticateToken } from '../middlewares/middlewares'
 const router = express.Router();
 
@@ -9,6 +9,7 @@ router.post("/taskcreate", AuthenticateToken, createTask);
 router.get("/getname", AuthenticateToken, getUsername);
 router.get("/gettasks", AuthenticateToken, getTasks);
 router.post("/token", getToken);
+router.post("/checktask", checkTask);
 router.post("/deletetask", deleteTask);
 router.delete("/logout", deleteToken);
 

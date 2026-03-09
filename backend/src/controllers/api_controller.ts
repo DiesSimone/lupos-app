@@ -82,25 +82,42 @@ export async function createTask(req: AuthRequest, res: Response) {
         Task.create({
             user_id: userId,
             name: req.body.taskName,
+            completed: false,
             date: new Date(Date.now())
         });
         res.status(200).json({ message: "Task created succesfully" })
     } catch (error) {
         console.log(`There has been an error with creating the tasks ${error}`);
         if (error == "TNE") {
-            res.status(401).json({ message: "You must put something inside the task"})
+            res.status(401).json({ message: "You must put something inside the task" })
         }
     }
 }
 
-export async function deleteTask(req: AuthRequest, res: Response){
+export async function deleteTask(req: AuthRequest, res: Response) {
     try {
         console.log('deleting task...');
         const taskId = req.body.task_id;
-        const task = await Task.deleteOne({_id : taskId});
-        return res.status(200).json({message: "Task successfully deleted"});
+        const task = await Task.deleteOne({ _id: taskId });
+        return res.status(200).json({ message: "Task successfully deleted" });
     } catch (error) {
         console.log(`There has been an error with deleting the task ${error}`);
+        return res.status(401).json({ error: error })
+    }
+}
+
+export async function checkTask(req: AuthRequest, res: Response) {
+    try {
+        const taskId = req.body.task_id;
+        const task = await Task.findOne({_id: taskId});
+        let taskCompletion = task?.completed
+        taskCompletion = !taskCompletion
+        await Task.findByIdAndUpdate(taskId, {completed: taskCompletion});
+        console.log(taskCompletion);
+        res.status(200).json("Completion switched to: " + taskCompletion);
+        // const task = await Task.findByIdAndUpdate(taskId, {_id: taskId});
+    } catch (error) {
+        console.log(`There has been an error with checking the task ${error}`);
         return res.status(401).json({ error: error })
     }
 }
