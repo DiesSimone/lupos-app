@@ -109,6 +109,7 @@ export async function deleteTask(req: AuthRequest, res: Response) {
 export async function checkTask(req: AuthRequest, res: Response) {
     try {
         const taskId = req.body.task_id;
+        console.log(taskId);
         const task = await Task.findOne({_id: taskId});
         let taskCompletion = task?.completed
         taskCompletion = !taskCompletion

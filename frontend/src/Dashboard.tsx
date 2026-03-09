@@ -1,4 +1,4 @@
-import { getUsername, getTask } from "./ApiReqs";
+import { getUsername, getTask, checkTask } from "./ApiReqs";
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar.js";
 import { AuthContext } from './Contexts.js';
@@ -11,14 +11,30 @@ type Task = {
     date: Date
 }
 
+function TaskItem({ task }: any) {
+    const [isChecked, setIsChecked] = useState(task.completed);
+
+    function checkHandler() {
+        setIsChecked(!isChecked);
+        checkTask({
+            "task_id": task._id
+        });
+    }
+
+    return (
+        <li key={task._id}>
+            <input type="checkbox" checked={isChecked} onChange={checkHandler} />
+            <p>{task.name}</p>
+        </li>
+    )
+}
+
 function RenderTasks({ tasks }: any) {
+
     //mapping the task parameter, to create a list element for each task inside of the task array, the array will be a collection of lists
     const taskList = tasks.map((el: Task) => {
         return (
-            <li key={el._id}>
-                <input type="checkbox" />
-                <p>{el.name}</p>
-            </li>
+            <TaskItem key={el._id} task={el} />
         )
     });
     return <ul>{taskList}</ul>

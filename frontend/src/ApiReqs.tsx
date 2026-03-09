@@ -199,3 +199,20 @@ export async function deleteTask(data: Object){
         console.log(`There has been an error with deleting the task: ${error}`);
     }
 }
+
+export async function checkTask(data: Object){
+    try {
+        const res = await axios.post(
+            `${URL}/api/checktask`,
+            data,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+    } catch (error: any) {
+        console.log(`There has been an error with checking the task: ${error}`);
+    }
+}

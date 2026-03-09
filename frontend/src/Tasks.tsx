@@ -1,6 +1,6 @@
 import Sidebar from './Sidebar.js'
 import { useState, useEffect } from 'react'
-import { postTask, getTask, deleteTask } from './ApiReqs.js'
+import { postTask, getTask, deleteTask, checkTask } from './ApiReqs.js'
 import { AuthContext, RenderContext } from './Contexts.js'
 import { useContext } from 'react'
 import submitLogo from './assets/submit.svg'
@@ -10,19 +10,35 @@ type Task = {
     _id: string,
     user_id: string,
     name: string,
+    completed: boolean,
     date: Date
 }
 
-function RenderTasks({ tasks , eraseTask}: any) {
+function TaskItem({ task, eraseTask }: any) {
+    const [isChecked, setIsChecked] = useState(task.completed);
+
+    function checkHandler() {
+        setIsChecked(!isChecked);
+        checkTask({
+            "task_id": task._id
+        });
+    }
+
+    return (
+        <li key={task._id}>
+            <input type="checkbox" checked={isChecked} onChange={checkHandler} />
+            <p>{task.name}</p>
+            <button onClick={() => eraseTask(task._id)}><img src={trashcan} alt="delete logo" /></button>
+        </li>
+    )
+}
+
+function RenderTasks({ tasks, eraseTask }: any) {
 
     //mapping the task parameter, to create a list element for each task inside of the task array, the array will be a collection of lists
     const taskList = tasks.map((el: Task) => {
         return (
-            <li key={el._id}>
-                <input type="checkbox" />
-                <p>{el.name}</p>
-                <button onClick={() => eraseTask(el._id)}><img src={trashcan} alt="delete logo" /></button>
-            </li>
+            <TaskItem key={el._id} task={el} eraseTask={eraseTask} />
         )
     });
     return <ul>{taskList}</ul>
@@ -94,7 +110,7 @@ function Tasks() {
                     <input type="image" src={submitLogo} alt="submit-img" name="submit" className="taskbtn" />
                 </form>
                 <div className="tasks-display">
-                    <RenderTasks tasks={tasks} eraseTask={eraseTask}/>
+                    <RenderTasks tasks={tasks} eraseTask={eraseTask} />
                 </div>
             </div>
         </div>
