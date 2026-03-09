@@ -50,9 +50,15 @@
 }
 
 .dashboard-content {
-  display: block;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   margin-left: 110px;
+  overflow: hidden;
+}
+
+.dashboard-content h1{
+  margin-left: 32px;
 }
 
 /* Auth Forms Styling */
@@ -208,11 +214,12 @@
 .tasks-container {
   margin-left: 100px;
 }
-.tasks-container h1{
+
+.tasks-container h1 {
   margin-left: 25px;
 }
 
-.error-wrapper{
+.error-wrapper {
   display: flex;
   justify-content: center;
 }
@@ -276,7 +283,7 @@
   padding: 2rem;
 }
 
-ul {
+.tasks-display ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -285,7 +292,7 @@ ul {
   gap: 1rem;
 }
 
-li {
+.tasks-display li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -297,14 +304,14 @@ li {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-li:hover {
+.tasks-display .tasks-displayli:hover {
   background: linear-gradient(135deg, #333342 0%, #262633 100%);
   border-color: rgba(232, 160, 80, 0.4);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(232, 160, 80, 0.15);
 }
 
-li p {
+.tasks-display li p {
   margin: 0;
   color: #d1d1d1;
   font-size: 1.5rem;
@@ -312,7 +319,7 @@ li p {
   flex: 1;
 }
 
-li input[type="checkbox"] {
+.tasks-display li input[type="checkbox"] {
   width: 1.5rem;
   height: 1.5rem;
   margin-right: 1rem;
@@ -322,11 +329,11 @@ li input[type="checkbox"] {
   transition: all 0.3s ease;
 }
 
-li input[type="checkbox"]:hover {
+.tasks-display li input[type="checkbox"]:hover {
   transform: scale(1.1);
 }
 
-li button {
+.tasks-display li button {
   background: transparent;
   border: none;
   font-size: 1.2rem;
@@ -339,16 +346,16 @@ li button {
   border-radius: 6px;
 }
 
-li button:hover {
+.tasks-display li button:hover {
   background: rgba(232, 160, 80, 0.1);
   transform: scale(1.1);
 }
 
-li button:active {
+.tasks-display li button:active {
   transform: scale(0.95);
 }
 
-li button img {
+.tasks-display li button img {
   width: 25px;
 }
 
@@ -405,8 +412,169 @@ form input[type="submit"]:active {
   transform: translateY(0);
 }
 
+/* Dashboard Grid Styling */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 2rem;
+  flex: 1;
+  overflow: hidden;
+  background: rgba(22, 22, 29, 0.5);
+}
+
+.dashboard-tasks {
+  background: linear-gradient(135deg, #2a2a38 0%, #1f1f2a 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(232, 160, 80, 0.2);
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dashboard-tasks:hover {
+  border-color: rgba(232, 160, 80, 0.4);
+  box-shadow: 0 12px 40px rgba(232, 160, 80, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+/* Dashboard Tasks List Styling */
+.dashboard-tasks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  max-height: calc(100% - 1rem);
+  padding-right: 0.5rem;
+}
+
+.dashboard-tasks ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-tasks ul::-webkit-scrollbar-track {
+  background: rgba(232, 160, 80, 0.05);
+  border-radius: 3px;
+}
+
+.dashboard-tasks ul::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #e8a050 0%, #c77d3d 100%);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-tasks ul::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #f4b888 0%, #d89053 100%);
+}
+
+.dashboard-tasks li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.875rem;
+  background: linear-gradient(135deg, rgba(51, 51, 66, 0.6) 0%, rgba(38, 38, 51, 0.6) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(232, 160, 80, 0.1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-tasks li:hover {
+  background: linear-gradient(135deg, rgba(51, 51, 66, 0.8) 0%, rgba(38, 38, 51, 0.8) 100%);
+  border-color: rgba(232, 160, 80, 0.3);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(232, 160, 80, 0.1);
+}
+
+.dashboard-tasks li p {
+  margin: 0;
+  color: #d1d1d1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-tasks li input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  background-color: white !important;
+  accent-color: #e8a050;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dashboard-tasks li input[type="checkbox"]:hover {
+  transform: scale(1.15);
+}
+
+.dashboard-tasks li button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.4rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.dashboard-tasks li button:hover {
+  background: rgba(232, 160, 80, 0.15);
+  transform: scale(1.1);
+}
+
+.dashboard-tasks li button:active {
+  transform: scale(0.95);
+}
+
+.dashboard-tasks li button img {
+  width: 18px;
+  height: 18px;
+}
+
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .dashboard-tasks {
+    padding: 1rem;
+  }
+
+  .dashboard-tasks li {
+    padding: 0.6rem 0.75rem;
+  }
+
+  .dashboard-tasks li p {
+    font-size: 0.85rem;
+  }
+
   li {
     padding: 1rem 1.2rem;
   }

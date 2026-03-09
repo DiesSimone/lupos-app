@@ -39,7 +39,7 @@ export const RenderContext = createContext<{
 } | null>(null);
 
 export const RenderProvider = ({ children }: RenderProviderProps) => {
-    const [render, checkRender] = useState("");
+    const [render, checkRender] = useState("1");
 
     return (
         <RenderContext.Provider value={{ render, checkRender }}>

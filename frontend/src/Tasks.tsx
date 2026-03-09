@@ -56,6 +56,7 @@ function Tasks() {
         }
         //hook used just to trigger the useEffect below
         checkRender(render + 1);
+        console.log(render);
         setTask("")
         sendTaskAxios();
     }
