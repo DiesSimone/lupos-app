@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt'
 import User from '../models/users'
 import Task from '../models/tasks'
 import Token from '../models/tokens'
+import Habit from '../models/habits'
+import HabitLogs from '../models/habit_logs'
 import jwt from 'jsonwebtoken'
 const accessSecret: string = process.env.ACCESS_TOKEN_SECRET!
 const refreshSecret: string = process.env.REFRESH_TOKEN_SECRET!
@@ -110,10 +112,10 @@ export async function checkTask(req: AuthRequest, res: Response) {
     try {
         const taskId = req.body.task_id;
         console.log(taskId);
-        const task = await Task.findOne({_id: taskId});
+        const task = await Task.findOne({ _id: taskId });
         let taskCompletion = task?.completed
         taskCompletion = !taskCompletion
-        await Task.findByIdAndUpdate(taskId, {completed: taskCompletion});
+        await Task.findByIdAndUpdate(taskId, { completed: taskCompletion });
         console.log(taskCompletion);
         res.status(200).json("Completion switched to: " + taskCompletion);
         // const task = await Task.findByIdAndUpdate(taskId, {_id: taskId});
@@ -179,4 +181,23 @@ export async function deleteToken(req: Request, res: Response) {
 //generates an accessToken, lasting 600 seconds
 function generateToken(user: any) {
     return jwt.sign(user, accessSecret, { expiresIn: '600s' })
+}
+
+export async function createHabit(req: AuthRequest, res: Response) {
+    try {
+        console.log('about to create the habit!')
+        const userId = req.user!._id
+        const habit = await Habit.create({
+            user_id: userId,
+            name: req.body.habit_name,
+            type: req.body.type,
+            goal: req.body.goal,
+            unit: req.body.unit,
+            created_at: new Date(Date.now())
+        });
+        res.status(200).json({message: "Habit created succesfully"});
+    } catch (error) {
+        console.log(`[HABIT-CREATION] Error: ${error}`)
+        res.status(400).json({ error: "There has been an error with creating the habit" });
+    }
 }
