@@ -185,6 +185,7 @@ function generateToken(user: any) {
 
 export async function createHabit(req: AuthRequest, res: Response) {
     try {
+        //creating the habit
         console.log('about to create the habit!')
         const userId = req.user!._id
         const habit = await Habit.create({
@@ -195,9 +196,26 @@ export async function createHabit(req: AuthRequest, res: Response) {
             unit: req.body.unit,
             created_at: new Date(Date.now())
         });
-        res.status(200).json({message: "Habit created succesfully"});
+        res.status(200).json({ message: "Habit created succesfully" });
     } catch (error) {
         console.log(`[HABIT-CREATION] Error: ${error}`)
         res.status(400).json({ error: "There has been an error with creating the habit" });
+    }
+}
+
+export async function habitValue(req: AuthRequest, res: Response) {
+    try {
+        //creating value associated to an habit via FK
+        const userId = req.user!._id;
+        const today = new Date();
+        const habitValue = await HabitLogs.create({
+            habit_id: req.body.habit_id,
+            value: req.body.value,
+            date: new Date(Date.now() - today.setHours(0, 0, 0))
+        });
+        res.status(200).json({message: "Habit value created succesfully"});
+    } catch (error) {
+        console.log(`[HABIT-VALUE] Error: ${error}`)
+        res.status(400).json({ error: "There has been an error with adding value to the habit" });
     }
 }
