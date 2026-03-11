@@ -34,7 +34,7 @@ export async function userLogging(req: Request, res: Response) {
     try {
         const user = await User.findOne({ email: req.body.data.email });
         if (!user || user === null) {
-            return res.status(401).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         //comparing the input password and the real password associated to the user
@@ -72,7 +72,7 @@ export async function getUsername(req: AuthRequest, res: Response) {
         return res.json({ username: user!.username });
     } catch (error) {
         console.log(`There has been an error with getting the username ${error}`);
-        return res.status(401).json({ error: error })
+        return res.status(500).json({ error: error })
     }
 }
 
@@ -88,10 +88,10 @@ export async function createTask(req: AuthRequest, res: Response) {
             date: new Date(Date.now())
         });
         res.status(200).json({ message: "Task created succesfully" })
-    } catch (error) {
+    } catch (error: any) {
         console.log(`There has been an error with creating the tasks ${error}`);
-        if (error == "TNE") {
-            res.status(401).json({ message: "You must put something inside the task" })
+        if ((error as Error).message == "TNE") {
+            res.status(400).json({ message: "You must put something inside the task" })
         }
     }
 }
@@ -104,7 +104,7 @@ export async function deleteTask(req: AuthRequest, res: Response) {
         return res.status(200).json({ message: "Task successfully deleted" });
     } catch (error) {
         console.log(`There has been an error with deleting the task ${error}`);
-        return res.status(401).json({ error: error })
+        return res.status(500).json({ error: error })
     }
 }
 
@@ -121,7 +121,7 @@ export async function checkTask(req: AuthRequest, res: Response) {
         // const task = await Task.findByIdAndUpdate(taskId, {_id: taskId});
     } catch (error) {
         console.log(`There has been an error with checking the task ${error}`);
-        return res.status(401).json({ error: error })
+        return res.status(500).json({ error: error })
     }
 }
 
@@ -132,12 +132,9 @@ export async function getTasks(req: AuthRequest, res: Response) {
         const tasks = await Task.find({ user_id: userId });
         const today = new Date();
         const startToday = (Date.now() - today.setHours(0, 0, 0));
-        console.log(Date.now() - startToday);
         const filteredTasksByDate = tasks.filter((task) => {
-            console.log(task.date.getTime());
             return task.date < new Date(Date.now()) && task.date > new Date(Date.now() - startToday);
         });
-        console.log(filteredTasksByDate);
         res.status(200).json(filteredTasksByDate);
     } catch (error) {
         console.log(`There has been an error with getting the tasks ${error}`);
@@ -171,7 +168,7 @@ export async function deleteToken(req: Request, res: Response) {
     try {
         //finding the requested token to delete and deleting it
         const token = await Token.deleteOne({ value: req.body.token })
-        res.status(400).json({ message: "Deleted the token succesfully" })
+        res.status(200).json({ message: "Deleted the token succesfully" })
     } catch (error) {
         console.log(`[DELETE-TOKEN] Error: ${error}`)
         res.status(400).json({ error: "There has been an error with deleting the tokens" })
@@ -186,7 +183,7 @@ function generateToken(user: any) {
 export async function createHabit(req: AuthRequest, res: Response) {
     try {
         //creating the habit
-        console.log('about to create the habit!')
+        console.log('about to create the habit!');
         const userId = req.user!._id
         const habit = await Habit.create({
             user_id: userId,
@@ -206,12 +203,12 @@ export async function createHabit(req: AuthRequest, res: Response) {
 export async function habitValue(req: AuthRequest, res: Response) {
     try {
         //creating value associated to an habit via FK
-        const userId = req.user!._id;
         const today = new Date();
+        const currentHabitsValue = await HabitLogs.findOne({habit_id: req.body.habit_id, date: new Date(today.setHours(0, 0, 0, 0))});
         const habitValue = await HabitLogs.create({
             habit_id: req.body.habit_id,
             value: req.body.value,
-            date: new Date(Date.now() - today.setHours(0, 0, 0))
+            date: new Date(today.setHours(0, 0, 0, 0))
         });
         res.status(200).json({message: "Habit value created succesfully"});
     } catch (error) {

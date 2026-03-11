@@ -20,7 +20,7 @@ const habitLogsSchema = new mongoose.Schema<IHabitLogs>({
     date: {
         type: Date,
         required: true,
-        unique: true
+        unique: false
     },
 });
 

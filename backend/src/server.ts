@@ -5,9 +5,10 @@ import cors from 'cors'
 import apiRoute from './routes/api_router'
 const app = express();
 const PORT = process.env.PORT;
+const FRONTEND_URL = process.env.FRONTEND_URL
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true,
     allowedHeaders: ['Authorization', 'Content-Type']
 }));
