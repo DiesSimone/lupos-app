@@ -204,13 +204,21 @@ export async function habitValue(req: AuthRequest, res: Response) {
     try {
         //creating value associated to an habit via FK
         const today = new Date();
-        const currentHabitsValue = await HabitLogs.findOne({habit_id: req.body.habit_id, date: new Date(today.setHours(0, 0, 0, 0))});
-        const habitValue = await HabitLogs.create({
-            habit_id: req.body.habit_id,
-            value: req.body.value,
-            date: new Date(today.setHours(0, 0, 0, 0))
-        });
-        res.status(200).json({message: "Habit value created succesfully"});
+        const currentHabitValue = await HabitLogs.findOne({ habit_id: req.body.habit_id, date: new Date(today.setHours(0, 0, 0, 0)) });
+        console.log(currentHabitValue);
+        if (currentHabitValue == null || currentHabitValue == undefined) {
+            const habitValue = await HabitLogs.create({
+                habit_id: req.body.habit_id,
+                value: req.body.value,
+                date: new Date(today.setHours(0, 0, 0, 0))
+            });
+            return res.status(200).json({ message: "Habit value created succesfully" });
+        }
+        await HabitLogs.updateOne({habit_id: req.body.habit_id, date: new Date(today.setHours(0, 0, 0, 0))}, {
+            $inc: {value: req.body.value}
+        })
+        res.status(200).json({message: "Habit value updated succesfully"});
+
     } catch (error) {
         console.log(`[HABIT-VALUE] Error: ${error}`)
         res.status(400).json({ error: "There has been an error with adding value to the habit" });
