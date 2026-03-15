@@ -200,6 +200,39 @@ export async function createHabit(req: AuthRequest, res: Response) {
     }
 }
 
+export async function editHabit(req: AuthRequest, res: Response) {
+    try {
+        //getting current values to replace them in case user did not change them
+        const userId = req.user!._id;
+        const currentHabit = await Habit.findOne({ _id: req.body.habit_id });
+        let currentName = currentHabit?.name;
+        let currentGoal = currentHabit?.goal;
+        let currentUnit = currentHabit?.unit;
+        let currentType = currentHabit?.type;
+        let currentCreation = currentHabit?.created_at;
+        if (req.body.name != "") {
+            currentName = req.body.name;
+        }
+        if (req.body.goal != "") {
+            currentGoal = req.body.goal;
+        }
+        if (req.body.unit != "") {
+            currentUnit = req.body.unit;
+        }
+        if (req.body.type != "") {
+            currentType = req.body.type;
+        }
+        if (req.body.type != "") {
+            currentCreation = req.body.created_at;
+        }
+        const habit = await Habit.replaceOne({ _id: req.body.habit_id }, { user_id: req.user!._id, name: currentName, type: currentType, goal: currentGoal, unit: currentUnit, created_at: currentCreation});
+        res.status(200).json({ message: "Habit edited succesfully" });
+    } catch (error) {
+        console.log(`[HABIT-EDITING] Error: ${error}`)
+        res.status(400).json({ error: "There has been an error with editing the habit" });
+    }
+}
+
 export async function habitValue(req: AuthRequest, res: Response) {
     try {
         //creating value associated to an habit via FK
@@ -214,10 +247,10 @@ export async function habitValue(req: AuthRequest, res: Response) {
             });
             return res.status(200).json({ message: "Habit value created succesfully" });
         }
-        await HabitLogs.updateOne({habit_id: req.body.habit_id, date: new Date(today.setHours(0, 0, 0, 0))}, {
-            $inc: {value: req.body.value}
+        await HabitLogs.updateOne({ habit_id: req.body.habit_id, date: new Date(today.setHours(0, 0, 0, 0)) }, {
+            $inc: { value: req.body.value }
         })
-        res.status(200).json({message: "Habit value updated succesfully"});
+        res.status(200).json({ message: "Habit value updated succesfully" });
 
     } catch (error) {
         console.log(`[HABIT-VALUE] Error: ${error}`)
