@@ -180,6 +180,17 @@ function generateToken(user: any) {
     return jwt.sign(user, accessSecret, { expiresIn: '600s' })
 }
 
+export async function getHabits(req: AuthRequest, res: Response){
+    try {
+        const userId = req.user!._id;
+        const habits = await Habit.find({user_id: userId});
+        res.status(200).json(habits);
+    } catch (error) {
+        console.log(`[HABITS-FETCHING] Error: ${error}`)
+        res.status(400).json({ error: "There has been an error with fetching the habits" });
+    }
+}
+
 export async function createHabit(req: AuthRequest, res: Response) {
     try {
         //creating the habit
