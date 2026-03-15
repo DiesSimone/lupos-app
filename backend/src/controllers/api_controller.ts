@@ -225,11 +225,21 @@ export async function editHabit(req: AuthRequest, res: Response) {
         if (req.body.type != "") {
             currentCreation = req.body.created_at;
         }
-        const habit = await Habit.replaceOne({ _id: req.body.habit_id }, { user_id: req.user!._id, name: currentName, type: currentType, goal: currentGoal, unit: currentUnit, created_at: currentCreation});
+        const habit = await Habit.replaceOne({ _id: req.body.habit_id }, { user_id: req.user!._id, name: currentName, type: currentType, goal: currentGoal, unit: currentUnit, created_at: currentCreation });
         res.status(200).json({ message: "Habit edited succesfully" });
     } catch (error) {
         console.log(`[HABIT-EDITING] Error: ${error}`)
         res.status(400).json({ error: "There has been an error with editing the habit" });
+    }
+}
+
+export async function deleteHabit(req: AuthRequest, res: Response) {
+    try {
+        const habit = await Habit.deleteOne({_id: req.body.habit_id});
+        res.status(200).json({message: "Habit deleted succesfully"});
+    } catch (error) {
+        console.log(`[HABIT-DELETING] Error: ${error}`);
+        res.status(400).json({ error: "There has been an error with deleting the habit" });
     }
 }
 
